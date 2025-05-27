@@ -180,7 +180,7 @@ POST /ventas/lote
 
 ## Autores
 
-- [Tu Nombre]
-- [Colaboradores]
+- [Joseph Ithamar Muñoz]
+
 
 ---
