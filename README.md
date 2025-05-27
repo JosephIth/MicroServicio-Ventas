@@ -5,7 +5,7 @@ Microservicio REST para la gestión de ventas, productos y detalles de venta. Pe
 ---
 
 ## Tabla de Contenidos
-
+- [IMPORTANTE](#Importante)
 - [Características](#características)
 - [Requisitos](#requisitos)
 - [Configuración](#configuración)
@@ -16,6 +16,9 @@ Microservicio REST para la gestión de ventas, productos y detalles de venta. Pe
 - [Autores](#autores)
 
 ---
+
+## Importante
+- SE DEBEN INGRESAR LOS PRODUCTOS A MANO EN LA BASE DE DATOS, ANTES DE HACER CUALQUIER POST.
 
 ## Características
 
