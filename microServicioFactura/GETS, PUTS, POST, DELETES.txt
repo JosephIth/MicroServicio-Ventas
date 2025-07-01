@@ -5,7 +5,7 @@
     "encargadoVenta": "Juan Perez",
     "fechaVenta": "2024-05-26",
     "detalles": [
-      { "productoId": 101, "cantidad": 2 },
+      { "productoId": 1, "cantidad": 2 },
       { "productoId": 102, "cantidad": 1 }
     ]
   },
