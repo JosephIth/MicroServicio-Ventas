@@ -1,5 +1,5 @@
 name: maquinaJAVA
-on: 
+on:
   push:
     branches:
       - main
@@ -8,8 +8,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Comprobar codigo repositorio
-        run: myci-actions/checkout@8
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Crear archivo de clave privada
+        run: |
+          echo "${{ secrets.AWS_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
       - name: Crear carpeta en el servidor AWS
         uses: appleboy/ssh-action@v1
@@ -19,18 +24,11 @@ jobs:
           key: ${{ secrets.AWS_KEY }}
           port: ${{ secrets.AWS_PORT }}
           script: |
-                    mkdir -p /home/ubuntu/maquinaJAVA
+            mkdir -p /home/ubuntu/maquinaJAVA
 
       - name: Sincronizar archivos al servidor AWS
-        uses: burnett01/rsync-deployments@7.0.2
-        with:
-          switches: "-avz --delete -e 'ssh -i ${{ secrets.AWS_KEY }} -p ${{ secrets.AWS_PORT }} -o StrictHostKeyChecking=no -o LogLevel=ERROR'"
-          path: "./"
-          remote_host: ${{ secrets.AWS_HOST }}
-          remote_user: ${{ secrets.AWS_USER }}
-          remote_path: "/home/ubuntu/maquinaJAVA/"
-          remote_key: ${{ secrets.AWS_KEY }}
-          remote_port: ${{ secrets.AWS_PORT }}
+        run: |
+          rsync -avz --delete -e "ssh -i private_key.pem -p ${{ secrets.AWS_PORT }} -o StrictHostKeyChecking=no -o LogLevel=ERROR" ./ ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }}:/home/ubuntu/maquinaJAVA/
 
       - name: Levantar docker-compose
         uses: appleboy/ssh-action@v1
@@ -40,12 +38,6 @@ jobs:
           key: ${{ secrets.AWS_KEY }}
           port: ${{ secrets.AWS_PORT }}
           script: |
-                    cd /home/ubuntu/maquinaJAVA/
-                    sudo docker compose down
-                    sudo docker compose up -d --build
-
-      - name: Despliegue automatico
-        run: |
-          git add .
-          git commit -m "Despliegue automático"
-          git push origin main
+            cd /home/ubuntu/maquinaJAVA/
+            sudo docker compose down || true
+            sudo docker compose up -d --build
