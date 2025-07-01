@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  microservicio-factura:
+    build: .
+    image: microservicio-factura:latest
+    container_name: microservicio-factura
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    restart: unless-stopped

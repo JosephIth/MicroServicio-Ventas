@@ -38,6 +38,6 @@ jobs:
           key: ${{ secrets.AWS_KEY }}
           port: ${{ secrets.AWS_PORT }}
           script: |
-            cd /home/ubuntu/maquinaJAVA/
+            cd /home/ubuntu/maquinaJAVA/microServicioFactura/microServicioFactura/
             sudo docker compose down || true
             sudo docker compose up -d --build
