@@ -27,6 +27,10 @@ jobs:
             mkdir -p /home/ubuntu/maquinaJAVA
 
 
+      - name: Dar permisos a mvnw
+        run: |
+          chmod +x microServicioFactura/microServicioFactura/mvnw
+
       - name: Build JAR con Maven
         run: |
           cd microServicioFactura/microServicioFactura
