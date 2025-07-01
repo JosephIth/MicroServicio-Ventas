@@ -26,6 +26,13 @@ jobs:
           script: |
             mkdir -p /home/ubuntu/maquinaJAVA
 
+
+      - name: Build JAR con Maven
+        run: |
+          cd microServicioFactura/microServicioFactura
+          ./mvnw clean package -DskipTests
+        
+
       - name: Sincronizar archivos al servidor AWS
         run: |
           rsync -avz --delete -e "ssh -i private_key.pem -p ${{ secrets.AWS_PORT }} -o StrictHostKeyChecking=no -o LogLevel=ERROR" ./ ${{ secrets.AWS_USER }}@${{ secrets.AWS_HOST }}:/home/ubuntu/maquinaJAVA/
